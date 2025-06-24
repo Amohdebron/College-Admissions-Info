@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>College Analyzer</title>
+    <link rel="stylesheet" href="styles/popup.css">
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <div class="logo">
+                <img src="icons/icon48.png" alt="College Analyzer" class="logo-img">
+                <h1>College Analyzer</h1>
+            </div>
+            <div class="version">v1.2.0</div>
+        </div>
+
+        <div class="current-page" id="currentPage">
+            <div class="page-info">
+                <div class="page-title" id="pageTitle">Loading...</div>
+                <div class="page-url" id="pageUrl"></div>
+            </div>
+            <button class="btn btn-primary" id="analyzeBtn">
+                <span class="icon">🔍</span>
+                Analyze This Page
+            </button>
+        </div>
+
+        <div class="quick-stats" id="quickStats" style="display: none;">
+            <div class="stat-card">
+                <div class="stat-value" id="totalColleges">0</div>
+                <div class="stat-label">Colleges Analyzed</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-value" id="watchlistCount">0</div>
+                <div class="stat-label">In Watchlist</div>
+            </div>
+        </div>
+
+        <div class="college-preview" id="collegePreview" style="display: none;">
+            <div class="college-name" id="previewName"></div>
+            <div class="college-details">
+                <div class="detail-item">
+                    <span class="label">Location:</span>
+                    <span class="value" id="previewLocation">-</span>
+                </div>
+                <div class="detail-item">
+                    <span class="label">Type:</span>
+                    <span class="value" id="previewType">-</span>
+                </div>
+                <div class="detail-item">
+                    <span class="label">Acceptance Rate:</span>
+                    <span class="value" id="previewAcceptance">-</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="actions">
+            <button class="btn btn-secondary" id="dashboardBtn">
+                <span class="icon">📊</span>
+                Dashboard
+            </button>
+            <button class="btn btn-secondary" id="compareBtn">
+                <span class="icon">⚖️</span>
+                Compare
+            </button>
+            <button class="btn btn-secondary" id="watchlistBtn">
+                <span class="icon">⭐</span>
+                Watchlist
+            </button>
+        </div>
+
+        <div class="recent-colleges" id="recentColleges">
+            <h3>Recent Analysis</h3>
+            <div class="recent-list" id="recentList">
+                <div class="no-data">No colleges analyzed yet</div>
+            </div>
+        </div>
+
+        <div class="footer">
+            <button class="btn btn-text" id="optionsBtn">Settings</button>
+            <button class="btn btn-text" id="helpBtn">Help</button>
+        </div>
+    </div>
+
+    <script src="scripts/popup.js"></script>
+</body>
+</html>
