@@ -1,0 +1,166 @@
+{
+  "manifest_version": 3,
+  "name": "Hebron's College Analyzer Pro",
+  "short_name": "College Analyzer",
+  "version": "1.2.0",
+  "version_name": "1.2.0 Beta",
+  "description": "Comprehensive college research tool with smart analysis, financial aid calculations, application tracking, and real-time data from multiple sources including College Scorecard, US News, Niche, and more.",
+  "author": "Hebron Development Team",
+  "homepage_url": "https://github.com/hebron/college-analyzer",
+  
+  "permissions": [
+    "activeTab",
+    "storage",
+    "unlimitedStorage",
+    "contextMenus",
+    "tabs",
+    "scripting",
+    "alarms",
+    "notifications",
+    "declarativeNetRequest"
+  ],
+  
+  "optional_permissions": [
+    "background",
+    "bookmarks",
+    "history"
+  ],
+  
+  "host_permissions": [
+    "https://*/*",
+    "http://*/*"
+  ],
+  
+  "action": {
+    "default_popup": "popup.html",
+    "default_title": "Hebron's College Analyzer - Click to analyze colleges",
+    "default_icon": {
+      "16": "icons/icon16.png",
+      "24": "icons/icon24.png",
+      "32": "icons/icon32.png",
+      "48": "icons/icon48.png",
+      "128": "icons/icon128.png"
+    }
+  },
+  
+  "background": {
+    "service_worker": "background.js",
+    "type": "module"
+  },
+  
+  "content_scripts": [
+    {
+      "matches": [
+        "https://www.usnews.com/best-colleges/*",
+        "https://www.niche.com/colleges/*",
+        "https://bigfuture.collegeboard.org/*",
+        "https://www.princetonreview.com/college/*",
+        "https://www.collegedata.com/college/*",
+        "https://www.cappex.com/colleges/*"
+      ],
+      "js": ["content-scripts/college-scraper.js"],
+      "css": ["styles/content-overlay.css"],
+      "run_at": "document_end"
+    },
+    {
+      "matches": [
+        "https://studentaid.gov/*",
+        "https://fafsa.ed.gov/*"
+      ],
+      "js": ["content-scripts/financial-aid-helper.js"],
+      "run_at": "document_end"
+    },
+    {
+      "matches": ["<all_urls>"],
+      "js": ["content-scripts/universal-detector.js"],
+      "run_at": "document_end",
+      "all_frames": false
+    }
+  ],
+  
+  "declarative_net_request": {
+    "rule_resources": [
+      {
+        "id": "college_data_rules",
+        "enabled": true,
+        "path": "rules/college-data-rules.json"
+      }
+    ]
+  },
+  
+  "web_accessible_resources": [
+    {
+      "resources": [
+        "popup.html",
+        "analyzer.html",
+        "compare.html",
+        "options.html",
+        "styles/*.css",
+        "assets/*",
+        "data/*.json",
+        "templates/*"
+      ],
+      "matches": ["<all_urls>"]
+    },
+    {
+      "resources": ["injected-scripts/*.js"],
+      "matches": [
+        "https://www.usnews.com/*",
+        "https://www.niche.com/*",
+        "https://bigfuture.collegeboard.org/*"
+      ]
+    }
+  ],
+  
+  "icons": {
+    "16": "icons/icon16.png",
+    "24": "icons/icon24.png",
+    "32": "icons/icon32.png",
+    "48": "icons/icon48.png",
+    "64": "icons/icon64.png",
+    "96": "icons/icon96.png",
+    "128": "icons/icon128.png",
+    "256": "icons/icon256.png"
+  },
+  
+  "commands": {
+    "analyze-page": {
+      "suggested_key": {
+        "default": "Ctrl+Shift+A",
+        "mac": "Command+Shift+A"
+      },
+      "description": "Analyze current college page"
+    },
+    "quick-compare": {
+      "suggested_key": {
+        "default": "Ctrl+Shift+C",
+        "mac": "Command+Shift+C"
+      },
+      "description": "Quick compare selected colleges"
+    },
+    "open-dashboard": {
+      "suggested_key": {
+        "default": "Ctrl+Shift+D",
+        "mac": "Command+Shift+D"
+      },
+      "description": "Open college dashboard"
+    }
+  },
+  
+  "options_ui": {
+    "page": "options.html",
+    "open_in_tab": true
+  },
+  
+  "omnibox": {
+    "keyword": "college"
+  },
+  
+  "content_security_policy": {
+    "extension_pages": "script-src 'self' 'wasm-unsafe-eval'; object-src 'self'; connect-src 'self' https://api.collegescorecard.ed.gov https://www.usnews.com https://www.niche.com https://bigfuture.collegeboard.org https://www.princetonreview.com https://www.collegedata.com https://www.cappex.com https://www.petersons.com https://nces.ed.gov https://studentaid.gov;"
+  },
+  
+  "minimum_chrome_version": "114",
+  "incognito": "split",
+  "offline_enabled": true
+}
